@@ -22,6 +22,39 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.Use(async (context, next) =>
+{
+    const long transportLimitBytes = 15 * 1024 * 1024;
+    if (context.Request.ContentLength is > transportLimitBytes)
+    {
+        context.Response.StatusCode = StatusCodes.Status413PayloadTooLarge;
+        await context.Response.WriteAsJsonAsync(new
+        {
+            code = "FILE_TOO_LARGE",
+            message = "File exceeds maximum allowed size of 10 MB."
+        });
+        return;
+    }
+
+    try
+    {
+        await next();
+    }
+    catch (BadHttpRequestException ex) when (ex.StatusCode == StatusCodes.Status413PayloadTooLarge)
+    {
+        if (!context.Response.HasStarted)
+        {
+            context.Response.StatusCode = StatusCodes.Status413PayloadTooLarge;
+            await context.Response.WriteAsJsonAsync(new
+            {
+                code = "FILE_TOO_LARGE",
+                message = "File exceeds maximum allowed size of 10 MB."
+            });
+        }
+    }
+});
+
 app.MapControllers();
 
 app.Run();

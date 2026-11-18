@@ -25,8 +25,8 @@ public class DocumentsController : ControllerBase
     }
 
     [HttpPost]
-    [RequestSizeLimit(10 * 1024 * 1024)]
-    [RequestFormLimits(MultipartBodyLengthLimit = 10 * 1024 * 1024)]
+    [RequestSizeLimit(15 * 1024 * 1024)]
+    [RequestFormLimits(MultipartBodyLengthLimit = 15 * 1024 * 1024)]
     [ProducesResponseType(typeof(DocumentMetadataDto), StatusCodes.Status201Created)]
     [ProducesResponseType(typeof(ApiErrorResponse), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(ApiErrorResponse), StatusCodes.Status413PayloadTooLarge)]
