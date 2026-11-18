@@ -1,0 +1,6 @@
+{
+  "name": "Document Management REST API Workbench",
+  "description": "Full-stack Document Management REST API with relational SQLite persistence, safe disk storage, live API explorer, automated test runner, and ASP.NET Core C# reference solution.",
+  "requestFramePermissions": [],
+  "majorCapabilities": []
+}
